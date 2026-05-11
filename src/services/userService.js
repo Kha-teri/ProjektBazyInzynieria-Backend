@@ -27,3 +27,21 @@ export const getUserByEmail = async (email) => {
     where: { email },
   });
 };
+
+export const getUserProfile = async (userId) => {
+  return await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      email: true,
+      total_points: true,
+      level: true,
+      _count: {
+        select: {
+          subjects: true,
+          tasks: { where: { status: "todo" } },
+        },
+      },
+    },
+  });
+};

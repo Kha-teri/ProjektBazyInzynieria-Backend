@@ -12,7 +12,7 @@ export const addSubject = async (req, res) => {
       lecturer_name,
     );
 
-    res.status(201).json({ subject });
+    res.status(201).json(subject);
   } catch (error) {
     res
       .status(500)
@@ -25,7 +25,7 @@ export const getSubjects = async (req, res) => {
     const userId = req.user.userId;
 
     const subjects = await subjectService.getUserSubjects(userId);
-    res.json({ subjects });
+    res.json(subjects);
   } catch (error) {
     res.status(500).json({ error: "Error while fetching subjects" });
   }

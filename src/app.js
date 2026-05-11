@@ -5,6 +5,7 @@ import prisma from "./config/db.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import subjectRoutes from "./routes/subjectRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import authMiddleware from "./middlewares/authMiddleware.js";
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/subjects", subjectRoutes);
+app.use("/api/user", userRoutes);
 
 const PORT = process.env.PORT || 3000;
 
