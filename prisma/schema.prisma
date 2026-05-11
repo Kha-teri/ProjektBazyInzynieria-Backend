@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  password_hash String
+  total_points Int @default(0)
+  level Int @default(1)
+  control_question String? 
+  answer String?
+  word_goal Int @default(0)
+
+  subjects Subject[]
+  tasks Task[]
+  flashcard_sets FlashcardSet[]
+  study_sessions StudySession[]
+  materials Material[]
+  class_schedules ClassSchedule[]
+
+  @@map("users")  
+}
+
+model Subject {
+  id Int @id @default(autoincrement())
+  name String
+  lecturer_name String?
+  color_code String?
+
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+
+  materials Material[]
+  tasks Task[]
+  class_schedules ClassSchedule[]
+
+  @@map("subjects")
+}
+
+model Material {
+  id Int @id @default(autoincrement())
+  title String
+  type String
+  content String? @db.Text
+
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+
+  subject_id Int?
+  subject Subject? @relation(fields: [subject_id], references: [id])
+
+  @@map("materials")
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+  title String
+  description String? @db.Text
+  due_date DateTime?
+  status String @default("todo")
+
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+
+  subject_id Int?
+  subject Subject? @relation(fields: [subject_id], references: [id])
+
+  @@map("tasks")
+}
+
+model StudySession {
+  id Int @id @default(autoincrement())
+  start_time DateTime @default(now())
+  end_time DateTime?
+  reward_points Int @default(0)
+
+  user_id Int
+  user User @relation(fields: [user_id],references: [id])
+
+  @@map("study_sessions")
+}
+
+model FlashcardSet {
+    id Int @id @default(autoincrement())
+    name String
+    
+    user_id Int
+    user User @relation(fields: [user_id], references: [id])
+
+    flashcards Flashcard[]
+
+    @@map("flashcard_sets")
+}
+
+model Flashcard {
+  id Int @id @default(autoincrement())
+  word String
+  translation String
+  is_learned Boolean @default(false)
+
+  set_id Int
+  flashcard_set FlashcardSet @relation(fields: [set_id], references: [id])
+
+  @@map("flashcards")
+}
+
+model ClassSchedule{
+  id Int @id @default(autoincrement())
+  date DateTime @db.Date
+  start_time DateTime @db.Time()
+  end_time DateTime @db.Time()
+
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+
+  subject_id Int?
+  subject Subject? @relation(fields: [subject_id], references: [id])
+
+  @@map("class_schedules")
+}
