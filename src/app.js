@@ -4,6 +4,8 @@ import cors from "cors";
 import prisma from "./config/db.js";
 
 import authRoutes from "./routes/authRoutes.js";
+import subjectRoutes from "./routes/subjectRoutes.js";
+import authMiddleware from "./middlewares/authMiddleware.js";
 
 const app = express();
 
@@ -11,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/subjects", subjectRoutes);
 
 const PORT = process.env.PORT || 3000;
 
