@@ -1,0 +1,29 @@
+import prisma from "../config/db.js";
+import bcrypt from "bcrypt";
+
+export const registerUser = async (
+  email,
+  password,
+  controlQuestion,
+  answer,
+) => {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+  return await prisma.user.create({
+    data: {
+      email: email,
+      password_hash: hashedPassword,
+      control_question: controlQuestion,
+      answer: answer,
+      total_points: 0,
+      level: 1,
+    },
+  });
+};
+
+export const getUserByEmail = async (email) => {
+  return await prisma.user.findUnique({
+    where: { email },
+  });
+};
