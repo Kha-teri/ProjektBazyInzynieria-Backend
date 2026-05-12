@@ -36,6 +36,10 @@ export const getUserProfile = async (userId) => {
       email: true,
       total_points: true,
       level: true,
+      study_sessions: {
+        where: { end_time: null },
+        take: 1,
+      },
       _count: {
         select: {
           subjects: true,
