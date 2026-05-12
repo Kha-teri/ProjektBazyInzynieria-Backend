@@ -10,6 +10,7 @@ import taskRoutes from "./routes/taskRoutes.js";
 import materialRoutes from "./routes/materialRoutes.js";
 import studySessionRoutes from "./routes/studySessionRoutes.js";
 import flashcardRoutes from "./routes/flashcardRoutes.js";
+import classScheduleRoutes from "./routes/classScheduleRoutes.js";
 
 import authMiddleware from "./middlewares/authMiddleware.js";
 
@@ -25,6 +26,7 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/materials", materialRoutes);
 app.use("/api/sessions", studySessionRoutes);
 app.use("/api/flashcards", flashcardRoutes);
+app.use("/api/schedules", classScheduleRoutes);
 
 const PORT = process.env.PORT || 3000;
 
