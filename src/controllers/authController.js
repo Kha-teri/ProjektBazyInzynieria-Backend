@@ -5,12 +5,16 @@ import * as userService from "../services/userService.js";
 
 export const register = async (req, res) => {
   try {
-    const { email, password, control_question, answer } = req.body;
+    const { email, password, nickname, control_question, answer } = req.body;
 
     if (!email || !password) {
       return res
         .status(400)
         .json({ error: "Email and password are required!" });
+    }
+
+    if (!nickname || !nickname.trim()) {
+      return res.status(400).json({ error: "Nickname is required!" });
     }
 
     const existingUser = await userService.getUserByEmail(email);
@@ -21,6 +25,7 @@ export const register = async (req, res) => {
     const newUser = await userService.registerUser(
       email,
       password,
+      nickname.trim(),
       control_question,
       answer,
     );
@@ -52,6 +57,7 @@ export const login = async (req, res) => {
       user: {
         id: user.id,
         email: user.email,
+        nickname: user.nickname,
         level: user.level,
         points: user.total_points,
       },

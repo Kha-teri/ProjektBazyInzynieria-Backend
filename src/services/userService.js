@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 export const registerUser = async (
   email,
   password,
+  nickname,
   controlQuestion,
   answer,
 ) => {
@@ -14,6 +15,7 @@ export const registerUser = async (
     data: {
       email: email,
       password_hash: hashedPassword,
+      nickname: nickname,
       control_question: controlQuestion,
       answer: answer,
       total_points: 0,
